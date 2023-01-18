@@ -1,192 +1,82 @@
-// Form control focus state
-//
-// Generate a customized focus state and for any input with the specified color,
-// which defaults to the `$input-focus-border-color` variable.
-//
-// We highly encourage you to not customize the default value, but instead use
-// this to tweak colors on an as-needed basis. This aesthetic change is based on
-// WebKit's default styles, but applicable to a wider range of browsers. Its
-// usability and accessibility should be taken into account with any change.
-//
-// Example usage: change the default blue border and shadow to white for better
-// contrast against a dark gray background.
-@mixin form-control-focus() {
-  &:focus {
-    color: $input-focus-color;
-    background-color: $input-focus-bg;
-    border-color: $input-focus-border-color;
-    outline: 0;
-    // Avoid using mixin so we can pass custom focus shadow properly
-    @if $enable-shadows {
-      box-shadow: $input-box-shadow, $input-focus-box-shadow;
-    } @else {
-      box-shadow: $input-focus-box-shadow;
-    }
-  }
-}
 
 
-@mixin form-validation-state($state, $color, $icon) {
-  .#{$state}-feedback {
-    display: none;
-    width: 100%;
-    margin-top: $form-feedback-margin-top;
-    @include font-size($form-feedback-font-size);
-    color: $color;
-  }
+// Contact 
+.contact {
+	position: relative;
+	border-radius: $border-radius-lg;
+	border: 1px solid $border-width;
+	box-shadow: 1px 2px 6px rgba($gray-500,.5);
+	padding: 0 30px 0 25px;
+	@include d-flex;
+	max-width: 1000px;
+	margin: 0 auto 150px;
+	z-index: 99;
+	background: $white;
 
-  .#{$state}-tooltip {
-    position: absolute;
-    top: 100%;
-    z-index: 5;
-    display: none;
-    max-width: 100%; // Contain to parent when possible
-    padding: $form-feedback-tooltip-padding-y $form-feedback-tooltip-padding-x;
-    margin-top: .1rem;
-    @include font-size($form-feedback-tooltip-font-size);
-    line-height: $form-feedback-tooltip-line-height;
-    color: color-yiq($color);
-    background-color: rgba($color, $form-feedback-tooltip-opacity);
-    @include border-radius($form-feedback-tooltip-border-radius);
-  }
+	.form {
+		flex-grow: 1;
+		border-right: 1px solid $border-color;
+		padding: 35px 30px 35px 0;
 
-  .form-control {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      border-color: $color;
+		form {
+			margin-top: 30px;
+		}
+	}
 
-      @if $enable-validation-icons {
-        padding-right: $input-height-inner;
-        background-image: $icon;
-        background-repeat: no-repeat;
-        background-position: center right $input-height-inner-quarter;
-        background-size: $input-height-inner-half $input-height-inner-half;
-      }
+	.contact-infos {
+		align-self: center;
+		margin-left: 30px;
+		min-width: 350px;
 
-      &:focus {
-        border-color: $color;
-        box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-      }
+		.item {
+			@include d-flex;
+			flex-wrap: wrap;
 
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-    }
-  }
+			i {
+				display: block;
+				width: 40px;
+				font-size: 16px;
+				color: primary;
+				@include circle(37);
+				border: 1px solid $primary;
+				line-height: 34px;
+				text-align: center;
+				padding: 0 !important;
+				color: $primary;
+				margin-right: 15px;
+			}
 
-  // stylelint-disable-next-line selector-no-qualifying-type
-  textarea.form-control {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      @if $enable-validation-icons {
-        padding-right: $input-height-inner;
-        background-position: top $input-height-inner-quarter right $input-height-inner-quarter;
-      }
-    }
-  }
+			div {
+				border-bottom: 1px solid $border-color;
+				margin-bottom: 25px;
+				flex-grow: 1;
 
-  .custom-select {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      border-color: $color;
+				h5 {
+					margin-bottom: 10px;
+					opacity: .9;
+				}
 
-      @if $enable-validation-icons {
-        padding-right: $custom-select-feedback-icon-padding-right;
-        background: $custom-select-background, $icon $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
-      }
+				p {
+					opacity: .7;
+					font-size: 15px;
+					margin-bottom: 4px;
+				}
+			}
+		}
+	}
 
-      &:focus {
-        border-color: $color;
-        box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-      }
+	@include media-breakpoint-down(md) {
+		flex-direction: column;
+		padding: 20px;
 
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-    }
-  }
+		.form {
+			margin: 0 0 20px 0;
+			padding: 0;
+			border-right: 0;
+		}
 
-
-  .form-control-file {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-    }
-  }
-
-  .form-check-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .form-check-label {
-        color: $color;
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-    }
-  }
-
-  .custom-control-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .custom-control-label {
-        color: $color;
-
-        &::before {
-          border-color: $color;
-        }
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-
-      &:checked {
-        ~ .custom-control-label::before {
-          border-color: lighten($color, 10%);
-          @include gradient-bg(lighten($color, 10%));
-        }
-      }
-
-      &:focus {
-        ~ .custom-control-label::before {
-          box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-        }
-
-        &:not(:checked) ~ .custom-control-label::before {
-          border-color: $color;
-        }
-      }
-    }
-  }
-
-  // custom file
-  .custom-file-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .custom-file-label {
-        border-color: $color;
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-
-      &:focus {
-        ~ .custom-file-label {
-          border-color: $color;
-          box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-        }
-      }
-    }
-  }
+		.contact-infos {
+			display: none;
+		}
+	}
 }
